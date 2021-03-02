@@ -1,0 +1,12 @@
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\Core.csprojAssemblyReference.cache
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\Core.AssemblyInfoInputs.cache
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\Core.AssemblyInfo.cs
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\Core.csproj.CoreCompileInputs.cache
+C:\Users\ASSR\source\repos\CarRental\Core\bin\Debug\net5.0\Core.deps.json
+C:\Users\ASSR\source\repos\CarRental\Core\bin\Debug\net5.0\Core.dll
+C:\Users\ASSR\source\repos\CarRental\Core\bin\Debug\net5.0\ref\Core.dll
+C:\Users\ASSR\source\repos\CarRental\Core\bin\Debug\net5.0\Core.pdb
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\Core.dll
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\ref\Core.dll
+C:\Users\ASSR\source\repos\CarRental\Core\obj\Debug\net5.0\Core.pdb
