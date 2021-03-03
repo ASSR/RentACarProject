@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Core.Utilities.Business;
+using Core.Utilities.FileHelper.Abstract;
+using Core.Utilities.FileHelper.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -17,10 +19,12 @@ namespace Business.Concrete
     public class CarImageManager : ICarImageService
     {
         ICarImageDal _carImageDal;
+        IFileHelper _fileHelper;
 
-        public CarImageManager(ICarImageDal carImageDal)
+        public CarImageManager(ICarImageDal carImageDal, IFileHelper fileHelper)
         {
             _carImageDal = carImageDal;
+            _fileHelper = fileHelper;
         }
 
         public async Task<IResult> Add(CarImageDTO carImageDTO)
@@ -32,10 +36,11 @@ namespace Business.Concrete
                 return result;
             }
 
-            var carImageUploadResult = await CarImageUpload(carImageDTO);
+            var carImageUploadResult = await CarImageFileAdd(carImageDTO);
 
             if (carImageUploadResult.Success)
             {
+                carImageDTO.Date = DateTime.Now;
                 _carImageDal.Add(carImageDTO.Adapt<CarImage>());
                 return new SuccessResult(Messages.CarImageAdded);
             }
@@ -47,11 +52,11 @@ namespace Business.Concrete
         {
             IResult result = BusinessRules.Run(CheckImageCountLimitExceeded(carImageDTO));
 
-
-            var carImageUploadResult = await CarImageUpload(carImageDTO);
+            var carImageUploadResult = await CarImageFileAdd(carImageDTO);
 
             if (carImageUploadResult.Success)
             {
+                carImageDTO.Date = DateTime.Now;
                 _carImageDal.Update(carImageDTO.Adapt<CarImage>());
                 return new SuccessResult(Messages.CarImageModified);
             }
@@ -59,14 +64,15 @@ namespace Business.Concrete
             return carImageUploadResult;
         }
 
-        public IResult Delete(int carImageId)
+        public IResult Delete(CarImageDTO carImageDTO)
         {
-            var carImage = _carImageDal.Get(c => c.CarImageId == carImageId);
-            var deleteImageResult = CarImageDelete(carImage);
+            //var carImage = _carImageDal.Get(c => c.CarImageId == carImageId);
+            var deleteImageResult = CarImageFileDelete(carImageDTO);
 
             if (deleteImageResult.Success)
             {
-                _carImageDal.Delete(carImage);
+                //var carImage = _carImageDal.Get(c => c.CarImageId == carImageDTO.CarImageId);
+                _carImageDal.Delete(carImageDTO.Adapt<CarImage>());
             }
 
             return new SuccessResult(Messages.CarImageDeleted);
@@ -110,40 +116,38 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private async Task<IDataResult<CarImage>> CarImageUpload(CarImageDTO carImageDTO){
-            carImageDTO.Date = DateTime.Now;
-            carImageDTO.ImagePath = Guid.NewGuid().ToString() + Path.GetExtension(carImageDTO.ImageFile.FileName);
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CarImages", carImageDTO.ImagePath);
-
-            if (carImageDTO.CarImageId != 0)
+        private async Task<IDataResult<CarImage>> CarImageFileAdd(CarImageDTO carImageDTO){
+            var uploadImageResult = await _fileHelper.Upload(carImageDTO.ImageFile, "wwwroot/CarImages");
+            if (uploadImageResult.Success)
             {
-                var oldCarImage = _carImageDal.Get(c => c.CarImageId == carImageDTO.CarImageId);
-                var deleteImageResult = CarImageDelete(oldCarImage);
-
-                if (!deleteImageResult.Success)
-                {
-                    return deleteImageResult;
-                }
+                carImageDTO.ImagePath = uploadImageResult.Data;
             }
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await carImageDTO.ImageFile.CopyToAsync(stream);
-            };
 
             return new SuccessDataResult<CarImage>(carImageDTO.Adapt<CarImage>());
         }
 
-        private IDataResult<CarImage> CarImageDelete(CarImage carImage)
+        private async Task<IDataResult<CarImage>> CarImageFileUpdate(CarImageDTO carImageDTO)
         {
-            string oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CarImages", carImage.ImagePath);
-
-            if (File.Exists(oldPath))
+            var deleteImageResult = CarImageFileDelete(carImageDTO);
+            if (!deleteImageResult.Success)
             {
-                File.Delete(oldPath);
+                return new ErrorDataResult<CarImage>(carImageDTO.Adapt<CarImage>(), deleteImageResult.Message);
             }
 
-            return new SuccessDataResult<CarImage>(carImage);
+            return await CarImageFileAdd(carImageDTO);
+        }
+
+        private IResult CarImageFileDelete(CarImageDTO carImageDTO)
+        {
+            var oldCarImage = _carImageDal.Get(c => c.CarImageId == carImageDTO.CarImageId);
+            var deleteImageResult = _fileHelper.Delete(oldCarImage.ImagePath, "wwwroot/CarImages");
+
+            if (!deleteImageResult.Success)
+            {
+                return new ErrorResult();
+            }
+
+            return new SuccessResult();
         }
     }
 }

@@ -72,9 +72,9 @@ namespace WebAPI.Controllers
 
         [HttpDelete]
         [Route("DeleteCarImage")]
-        public IActionResult DeleteCarImage(int carImageId)
+        public IActionResult DeleteCarImage(CarImageDTO carImageDTO)
         {
-            var result = _carImageService.Delete(carImageId);
+            var result = _carImageService.Delete(carImageDTO);
             return result.Success ? Ok(result) : BadRequest(result);
         }
     }
