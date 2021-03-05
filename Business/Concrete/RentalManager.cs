@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -21,22 +23,48 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
-        public IResult Add(RentalDTO rentalDTO)
+        [SecuredOperation("rental.add,admin")]
+        [CacheRemoveAspect("IRentalService.Get")]
+        public IResult Add(RentalDto rentalDto)
         {
-            IResult result = BusinessRules.Run(CanACarBeRented(rentalDTO));
+            IResult result = BusinessRules.Run(CanACarBeRented(rentalDto));
 
             if (result != null)
             {
                 return result;
             }
 
-            _rentalDal.Add(rentalDTO.Adapt<Rental>());
+            _rentalDal.Add(rentalDto.Adapt<Rental>());
             return new SuccessResult(Messages.RentalAdded);
         }
 
-        private IResult CanACarBeRented(RentalDTO rentalDTO)
+        [CacheAspect]
+        public IDataResult<List<Rental>> GetAll()
         {
-            var rentalResult = GetRentalByCarId(rentalDTO);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
+        }
+
+        [CacheAspect]
+        public IDataResult<Rental> GetById(int RentalId)
+        {
+            return new SuccessDataResult<Rental>(_rentalDal.Get(c => c.RentalId == RentalId));
+        }
+
+        [CacheAspect]
+        public IDataResult<Rental> GetLastRentalByCarId(RentalDto rentalDto)
+        {
+            return new SuccessDataResult<Rental>(_rentalDal.GetLastRentalByCarId(rentalDto.CarId));
+        }
+
+        private IResult CanACarBeRented(RentalDto rentalDto)
+        {
+            var anyNotReturnRental = _rentalDal.GetAll(c => c.CarId == rentalDto.CarId & c.ReturnDate == null).Any();
+            if (anyNotReturnRental)
+            {
+                return new ErrorResult(Messages.CarRental); //Aracın kira kaydı var ve henüz geri dönmemiş
+            }
+
+            var rentalResult = GetLastRentalByCarId(rentalDto);
             if (rentalResult.Success)
             {
                 if (rentalResult.Data == null)
@@ -49,33 +77,18 @@ namespace Business.Concrete
                     return new ErrorResult(Messages.CarRental); //Aracın kira kaydı var ve hala kirada
                 }
 
-                if (rentalDTO.RentDate < DateTime.Now.AddDays(-1))
+                if (rentalDto.RentDate < DateTime.Now.AddDays(-1))
                 {
                     return new ErrorResult(Messages.OldHistoryCanNotBeRecorded); //Bir gün öncesi veya daha eski tarih için kira kaydı yapılamaz
                 }
 
-                if (rentalDTO.RentDate > DateTime.Now.AddDays(1))
+                if (rentalDto.RentDate > DateTime.Now.AddDays(1))
                 {
                     return new ErrorResult(Messages.CanNotRegisterForTheNextDate); //Bir gün sonrası veya daha ileri tarih için kira kaydı yapılamaz
                 }
             }
 
             return rentalResult;
-        }
-
-        public IDataResult<List<Rental>> GetAll()
-        {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
-        }
-
-        public IDataResult<Rental> GetById(int RentalId)
-        {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(c => c.RentalId == RentalId));
-        }
-
-        public IDataResult<Rental> GetRentalByCarId(RentalDTO rentalDTO)
-        {
-            return new SuccessDataResult<Rental>(_rentalDal.GetRentalByCarId(rentalDTO.CarId));
         }
     }
 }

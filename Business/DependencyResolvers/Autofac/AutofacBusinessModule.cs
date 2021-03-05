@@ -3,6 +3,8 @@ using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
+using Core.Utilities.FileHelper.Abstract;
+using Core.Utilities.FileHelper.Concrete;
 using Core.Utilities.Interceptors;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
@@ -15,8 +17,13 @@ namespace Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
-            //builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
+            builder.RegisterType<FileHelper>().As<IFileHelper>().SingleInstance();
+
+            builder.RegisterType<UserManager>().As<IUserService>();
+            builder.RegisterType<EfUserDal>().As<IUserDal>();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
             builder.RegisterType<BrandManager>().As<IBrandService>().SingleInstance();
             builder.RegisterType<EfBrandDal>().As<IBrandDal>().SingleInstance();
@@ -29,15 +36,6 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
-
-            builder.RegisterType<UserManager>().As<IUserService>();
-            builder.RegisterType<EfUserDal>().As<IUserDal>();
-
-            builder.RegisterType<AuthManager>().As<IAuthService>();
-            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
-
-            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
-
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

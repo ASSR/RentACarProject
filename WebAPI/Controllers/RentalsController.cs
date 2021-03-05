@@ -32,9 +32,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Post(RentalDTO rentalDTO)
+        public IActionResult Post(RentalDto rentalDto)
         {
-            var result = _rentalService.Add(rentalDTO);
+            var result = _rentalService.Add(rentalDto);
 
             return result.Success ? Ok(result) : BadRequest(result);
         }

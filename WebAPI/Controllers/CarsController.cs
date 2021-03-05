@@ -1,11 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Entities.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -43,38 +38,6 @@ namespace WebAPI.Controllers
         {
             var result = _carService.Add(car);
 
-            return result.Success ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpGet("getcarimages")]
-        public IActionResult GetByCarImages(int carId)
-        {
-            var result = _carImageService.GetByCarId(carId);
-
-            return result.Success ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpPost]
-        [Route("Addcarimage")]
-        public async Task<IActionResult> AddCarImage(CarImageDTO carImageDTO)
-        {
-            var result = await _carImageService.Add(carImageDTO);
-            return result.Success ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpPut]
-        [Route("updatecarimage")]
-        public async Task<IActionResult> UpdateCarImage(CarImageDTO carImageDTO)
-        {
-            var result = await _carImageService.Add(carImageDTO);
-            return result.Success ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpDelete]
-        [Route("DeleteCarImage")]
-        public IActionResult DeleteCarImage(CarImageDTO carImageDTO)
-        {
-            var result = _carImageService.Delete(carImageDTO);
             return result.Success ? Ok(result) : BadRequest(result);
         }
     }

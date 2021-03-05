@@ -1,4 +1,6 @@
-﻿namespace Business.Constants
+﻿using System.Runtime.Serialization;
+
+namespace Business.Constants
 {
     public static class Messages
     {
@@ -29,6 +31,8 @@
         public static string CarImageCountLimitExceeded = "Araç resmi ekleme limiti doldu";
         public static string CarImageModified = "Araç resmi değiştirildi";
         public static string CarImageDeleted = "Araç resmi silindi";
+        public static string OldCarImageCouldNotBeDeleted = "Eski araba resmi silinemedi";
+        public static string NewCarImageCouldNotBeAdded = "Yeni araba resmi eklenemedi";
 
         public static string AuthorizationDenied = "Yetkiniz yok";
 
@@ -38,5 +42,7 @@
         public static string SuccessfulLogin = "Giriş başarılı";
         public static string UserAlreadyExists = "Kullanıcı zaten mevcut";
         public static string AccessTokenCreated = "Token oluşturuldu";
+
+        
     }
 }

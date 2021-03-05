@@ -2,7 +2,7 @@
 
 namespace Entities.DTOs
 {
-    public class CarAddDTO:IDTO
+    public class CarAddDto:IDTO
     {
         public int CarId { get; set; }
         public int BrandId { get; set; }

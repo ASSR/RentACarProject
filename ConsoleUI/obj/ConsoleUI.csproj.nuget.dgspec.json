@@ -13,9 +13,6 @@
         "packagesPath": "C:\\Users\\ASSR\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ASSR\\source\\repos\\CarRental\\Business\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\ASSR\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -103,9 +100,6 @@
         "packagesPath": "C:\\Users\\ASSR\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ASSR\\source\\repos\\CarRental\\ConsoleUI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\ASSR\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -170,9 +164,6 @@
         "packagesPath": "C:\\Users\\ASSR\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ASSR\\source\\repos\\CarRental\\Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\ASSR\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -215,6 +206,14 @@
             "FluentValidation": {
               "target": "Package",
               "version": "[9.5.1, )"
+            },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.Http.Features": {
               "target": "Package",
@@ -269,9 +268,6 @@
         "packagesPath": "C:\\Users\\ASSR\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ASSR\\source\\repos\\CarRental\\DataAccess\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\ASSR\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -349,9 +345,6 @@
         "packagesPath": "C:\\Users\\ASSR\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ASSR\\source\\repos\\CarRental\\Entities\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\ASSR\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

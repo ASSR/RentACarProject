@@ -43,38 +43,38 @@ namespace ConsoleUI
                 i++;
             }
 
-            Dictionary<int, RentalDTO> rentals = new Dictionary<int, RentalDTO>();
+            Dictionary<int, RentalDto> rentals = new Dictionary<int, RentalDto>();
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
             Random rnd = new Random();
 
-            rentals[0] = new RentalDTO() {
+            rentals[0] = new RentalDto() {
                             CarId = cars[rnd.Next(0, (cars.Count() - 1))].CarId, 
                             CustomerId = customers[rnd.Next(0, (customers.Count() - 1))].CustomerId,
                             RentDate = Convert.ToDateTime("2021-04-12 10:15:00"),
                             ReturnDate = Convert.ToDateTime("2021-04-15 18:45:00")
                         };
 
-            rentals[1] = new RentalDTO() {
+            rentals[1] = new RentalDto() {
                             CarId = cars[rnd.Next(0, (cars.Count() - 1))].CarId,
                             CustomerId = customers[rnd.Next(0, (customers.Count() - 1))].CustomerId,
                             RentDate = Convert.ToDateTime("2021-02-10 10:15:00")
                         };
 
-            rentals[2] = new RentalDTO() {
+            rentals[2] = new RentalDto() {
                             CarId = cars[rnd.Next(0, (cars.Count() - 1))].CarId,
                             CustomerId = customers[rnd.Next(0, (customers.Count() - 1))].CustomerId,
                             RentDate = Convert.ToDateTime("2021-02-15 10:15:00"),
                             ReturnDate = Convert.ToDateTime("2021-02-15 18:45:00")
             };
 
-            rentals[3] = new RentalDTO() {
+            rentals[3] = new RentalDto() {
                             CarId = cars[rnd.Next(0, (cars.Count() - 1))].CarId,
                             CustomerId = customers[rnd.Next(0, (customers.Count() - 1))].CustomerId,
                             RentDate = Convert.ToDateTime("2021-02-15 10:15:00")
                         };
 
-            rentals[4] = new RentalDTO() {
+            rentals[4] = new RentalDto() {
                             CarId = cars[rnd.Next(0, (cars.Count() - 1))].CarId,
                             CustomerId = customers[rnd.Next(0, (customers.Count() - 1))].CustomerId,
                             RentDate = Convert.ToDateTime("2021-02-13 10:15:00")

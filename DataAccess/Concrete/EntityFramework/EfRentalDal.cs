@@ -7,7 +7,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, CarRentalContext>, IRentalDal
     {
-        public Rental GetRentalByCarId(int carId)
+        public Rental GetLastRentalByCarId(int carId)
         {
             using (CarRentalContext context = new CarRentalContext())
             {

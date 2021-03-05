@@ -21,7 +21,7 @@ namespace Core.Utilities.FileHelper.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<string>> Upload(IFormFile file, string folder)
+        public async Task<IResult> Upload(IFormFile file, string folder)
         {
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             string path = Path.Combine(Directory.GetCurrentDirectory(), folder, fileName);
@@ -31,7 +31,7 @@ namespace Core.Utilities.FileHelper.Concrete
                 await file.CopyToAsync(stream);
             };
 
-            return new SuccessDataResult<string>(fileName);
+            return new SuccessResult(fileName);
         }
     }
 }

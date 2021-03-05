@@ -6,7 +6,7 @@ namespace Core.Utilities.FileHelper.Abstract
 {
     public interface IFileHelper
     {
-        Task<IDataResult<string>> Upload(IFormFile file, string folder);
+        Task<IResult> Upload(IFormFile file, string folder);
         IResult Delete(string fileName, string folder);
     }
 }
