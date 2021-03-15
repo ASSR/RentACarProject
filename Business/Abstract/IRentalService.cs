@@ -8,6 +8,7 @@ namespace Business.Abstract
     public interface IRentalService
     {
         IDataResult<List<Rental>> GetAll();
+        IDataResult<List<RentalWithDetailDto>> GetAllWithDetails();
         IDataResult<Rental> GetById(int rentalId);
         IResult Add(RentalDto rentalDto);
         IDataResult<Rental> GetLastRentalByCarId(RentalDto rentalDto);

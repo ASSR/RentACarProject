@@ -45,6 +45,12 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
+        public IDataResult<List<RentalWithDetailDto>> GetAllWithDetails()
+        {
+            return new SuccessDataResult<List<RentalWithDetailDto>>(_rentalDal.GetAllWithDetails());
+        }
+
+        [CacheAspect]
         public IDataResult<Rental> GetById(int RentalId)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(c => c.RentalId == RentalId));

@@ -9,12 +9,10 @@ namespace WebAPI.Controllers
     public class CarsController : ControllerBase
     {
         ICarService _carService;
-        ICarImageService _carImageService;
 
-        public CarsController(ICarService carService, ICarImageService carImageService)
+        public CarsController(ICarService carService)
         {
             _carService = carService;
-            _carImageService = carImageService;
         }
 
         [HttpGet("getall")]
@@ -37,6 +35,14 @@ namespace WebAPI.Controllers
         public IActionResult Post(Car car)
         {
             var result = _carService.Add(car);
+
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("getallwithdetail")]
+        public IActionResult GetAllWithDetail()
+        {
+            var result = _carService.GetAllWithDetail();
 
             return result.Success ? Ok(result) : BadRequest(result);
         }

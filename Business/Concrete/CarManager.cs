@@ -4,6 +4,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -31,6 +32,11 @@ namespace Business.Concrete
         public IDataResult<Car> GetById(int CarId)
         {
             return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == CarId));
+        }
+
+        public IDataResult<List<CarWithBrandAndColorDto>> GetAllWithDetail()
+        {
+            return new SuccessDataResult<List<CarWithBrandAndColorDto>>(_carDal.GetAllWithBrandAndColor());
         }
     }
 }

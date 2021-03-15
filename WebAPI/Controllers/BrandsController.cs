@@ -1,5 +1,4 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +18,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult Get()
         {
+            //Thread.Sleep(2000);
             var result = _brandService.GetAll();
             return result.Success ? Ok(result) : BadRequest(result);
         }
